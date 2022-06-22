@@ -30,19 +30,10 @@ app.get("/api/notes", (req, res) => {
 
 app.get("/api/notes/:id", (req, res) => {
   const id = Number(req.params.id);
-  const note = notes.find((note) => note.id === id);
-
-  if (note) {
+  Note.findById(id).then((note) => {
     res.json(note);
-  } else {
-    res.status(404).end();
-  }
+  });
 });
-
-const generateId = () => {
-  const maxId = notes.length > 0 ? Math.max(...notes.map((n) => n.id)) : 0;
-  return maxId + 1;
-};
 
 app.post("/api/notes", (req, res) => {
   const body = req.body;
@@ -51,16 +42,15 @@ app.post("/api/notes", (req, res) => {
     return res.status(400).json({ error: "content misssing" });
   }
 
-  const note = {
-    id: generateId(),
+  const note = new Note({
     content: body.content,
     important: body.important || false,
-    date: Date(),
-  };
+    date: new Date(),
+  });
 
-  notes = notes.concat(note);
-
-  res.json(note);
+  note.save().then((savedNote) => {
+    res.json(savedNote);
+  });
 });
 
 app.delete("/api/notes/:id", (request, response) => {
@@ -70,7 +60,7 @@ app.delete("/api/notes/:id", (request, response) => {
   response.status(204).end();
 });
 
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
