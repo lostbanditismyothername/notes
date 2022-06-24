@@ -1,0 +1,25 @@
+POST http://localhost:3001/api/notes
+Content-Type: application/json
+
+{
+    "content": "hello",
+    "from": "amsterdam"
+}
+
+###
+
+GET http://localhost:3001/api/notes
+
+###
+
+DELETE  http://localhost:3001/api/notes/62b17853452f455e19e828e5
+
+###
+
+PUT http://localhost:3001/api/notes/62b17858b3b3e05fbeb01932
+Content-Type: application/json
+
+{
+    "content": "NEW",
+    "important": false
+}
