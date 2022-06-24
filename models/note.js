@@ -1,6 +1,5 @@
 require("dotenv").config();
 const mongoose = require("mongoose");
-
 const url = process.env.MONGODB_URI;
 
 mongoose
@@ -11,8 +10,15 @@ mongoose
   .catch((err) => console.log(`Error: ${err.message}`));
 
 const noteSchema = new mongoose.Schema({
-  content: String,
-  date: Date,
+  content: {
+    type: String,
+    minLength: 5,
+    required: true,
+  },
+  date: {
+    type: Date,
+    default: new Date(),
+  },
   important: Boolean,
 });
 

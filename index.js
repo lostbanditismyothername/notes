@@ -13,7 +13,9 @@ const errorHandler = (error, req, res, next) => {
   console.error(error.message);
 
   if (error.name === "CastError") {
-    return response.status(400).send({ error: "malformatted id" });
+    return res.status(400).send({ error: "malformatted id" });
+  } else if (error.name === "ValidationError") {
+    return res.status(400).json({ error: error.message });
   }
 
   next(error);
@@ -102,7 +104,7 @@ app.put("/api/notes/:id", (req, res, next) => {
     important: body.important,
   };
 
-  Note.findByIdAndUpdate(req.params.id, note, { new: true })
+  Note.findByIdAndUpdate(req.params.id, note, { new: true, runValidators: true, context: "query" })
     .then((updatedNote) => {
       res.json(updatedNote);
     })
