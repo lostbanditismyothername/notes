@@ -1,5 +1,4 @@
 const express = require("express");
-const app = express();
 const morgan = require("morgan");
 const cors = require("cors");
 const mongoose = require("mongoose");
@@ -8,10 +7,10 @@ const config = require("./utils/config");
 const notesRouter = require("./controllers/notes");
 const middleware = require("./utils/middleware");
 
+const app = express();
+
 // Custom morgan token
-morgan.token("body", (req, res) => {
-  return JSON.stringify(req.body);
-});
+morgan.token("body", (req, res) => JSON.stringify(req.body));
 
 // Connect to MongoDB
 logger.info(`Connecting to ${config.MONGODB_URI}`);
@@ -19,7 +18,7 @@ logger.info(`Connecting to ${config.MONGODB_URI}`);
 mongoose
   .connect(config.MONGODB_URI)
   .then(() => {
-    console.log("connected to MongoDB");
+    logger.info("connected to MongoDB");
   })
   .catch((error) => logger.error(error.message));
 
