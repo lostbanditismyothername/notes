@@ -22,10 +22,10 @@ describe("notes", () => {
   // clear db & initialize dummy notes
   beforeEach(async () => {
     await Note.deleteMany({});
-    initialNotes.map(async (note) => {
-      let noteObj = new Note(note);
-      await noteObj.save();
-    });
+
+    const noteObjects = initialNotes.map((note) => new Note(note));
+    const promiseArray = noteObjects.map((note) => note.save());
+    await Promise.all(promiseArray);
   });
 
   // Check if the notes are returned in json format
@@ -40,7 +40,7 @@ describe("notes", () => {
   test("the first note is about HTTP methods", async () => {
     const response = await api.get("/api/notes/");
 
-    expect(response.body[0].content).toBe("Browser can execute only Javascript");
+    expect(response.body[0].content).toBe("HTML is easy");
   });
 
   // See if all notes are returned
