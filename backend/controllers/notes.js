@@ -42,7 +42,7 @@ notesRouter.post("/", async (req, res) => {
 
   const note = await noteObj.save();
 
-  res.json(note);
+  res.status(201).json(note);
 });
 
 // PUT

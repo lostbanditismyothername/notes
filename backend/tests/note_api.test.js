@@ -58,6 +58,30 @@ describe("notes", () => {
     expect(content).toContain("HTML is easy");
   });
 
+  // See if a valid note can be added
+  test("a valid note can be added", async () => {
+    const newNote = {
+      content: "hello new note",
+      important: true,
+    };
+
+    // see the post req
+    await api
+      .post("/api/notes")
+      .send(newNote)
+      .expect(201)
+      .expect("Content-Type", /application\/json/);
+
+    const response = await api.get("/api/notes");
+    const contents = response.body.map((r) => r.content);
+
+    // see if note added
+    expect(response.body).toHaveLength(initialNotes.length + 1);
+
+    // see if notes contain
+    expect(contents).toContain("hello new note");
+  });
+
   // Close the mongoose connection
   afterAll(() => {
     mongoose.connection.close();
