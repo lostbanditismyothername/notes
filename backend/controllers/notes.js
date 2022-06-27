@@ -1,8 +1,7 @@
 const notesRouter = require("express").Router();
-const { Error } = require("mongoose");
 const Note = require("../models/note");
 const logger = require("../utils/logger");
-
+require("express-async-errors");
 // GET ALL
 notesRouter.get("/", async (req, res) => {
   const notes = await Note.find({});
@@ -14,15 +13,11 @@ notesRouter.get("/:id", async (req, res, next) => {
   const id = req.params.id;
   const note = await Note.findById(id);
 
-  try {
-    if (note) {
-      res.json(note);
-    } else {
-      logger.error("no such no in db");
-      res.status(404).end();
-    }
-  } catch (error) {
-    next(error);
+  if (note) {
+    res.json(note);
+  } else {
+    logger.error("no such no in db");
+    res.status(404).end();
   }
 });
 
@@ -54,27 +49,19 @@ notesRouter.put("/:id", async (req, res, next) => {
     important: body.important,
   };
 
-  try {
-    const noteObj = await Note.findByIdAndUpdate(req.params.id, newNote, { new: true });
-    res.json(noteObj);
-  } catch (error) {
-    next(error);
-  }
+  const noteObj = await Note.findByIdAndUpdate(req.params.id, newNote, { new: true });
+  res.json(noteObj);
 });
 
 // DELETE
 notesRouter.delete("/:id", async (req, res, next) => {
   const newNote = await Note.findByIdAndUpdate(req.params.id);
 
-  try {
-    if (!newNote) {
-      logger.error("no such note");
-      res.status(404).send("no such note in db");
-    } else {
-      res.status(204).end();
-    }
-  } catch (error) {
-    next(Error);
+  if (!newNote) {
+    logger.error("no such note");
+    res.status(404).send("no such note in db");
+  } else {
+    res.status(204).end();
   }
 });
 
