@@ -4,7 +4,7 @@
   "description": "initial node app",
   "main": "index.js",
   "scripts": {
-    "start": "NODE-ENV=production node index.js",
+    "start": "NODE_ENV=production node index.js",
     "dev": "NODE_ENV=development nodemon index.js",
     "build:ui": "rm -rf build && cd ../frontend && npm run build && cp -r build ../backend",
     "deploy": "git push heroku main",
