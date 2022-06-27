@@ -18,16 +18,16 @@ const initialNotes = [
   },
 ];
 
+// clear db & initialize dummy notes
+beforeEach(async () => {
+  await Note.deleteMany({});
+
+  const noteObjects = initialNotes.map((note) => new Note(note));
+  const promiseArray = noteObjects.map((note) => note.save());
+  await Promise.all(promiseArray);
+});
+
 describe("notes", () => {
-  // clear db & initialize dummy notes
-  beforeEach(async () => {
-    await Note.deleteMany({});
-
-    const noteObjects = initialNotes.map((note) => new Note(note));
-    const promiseArray = noteObjects.map((note) => note.save());
-    await Promise.all(promiseArray);
-  });
-
   // Check if the notes are returned in json format
   test("notes are returned as json", async () => {
     await api
@@ -81,9 +81,9 @@ describe("notes", () => {
     // see if notes contain
     expect(contents).toContain("hello new note");
   });
+});
 
-  // Close the mongoose connection
-  afterAll(() => {
-    mongoose.connection.close();
-  });
+// Close the mongoose connection
+afterAll(() => {
+  mongoose.connection.close();
 });

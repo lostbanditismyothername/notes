@@ -1,7 +1,7 @@
 const notesRouter = require("express").Router();
 const Note = require("../models/note");
 const logger = require("../utils/logger");
-require("express-async-errors");
+
 // GET ALL
 notesRouter.get("/", async (req, res) => {
   const notes = await Note.find({});
@@ -55,13 +55,13 @@ notesRouter.put("/:id", async (req, res, next) => {
 
 // DELETE
 notesRouter.delete("/:id", async (req, res, next) => {
-  const newNote = await Note.findByIdAndUpdate(req.params.id);
+  const newNote = await Note.findByIdAndDelete(req.params.id);
 
   if (!newNote) {
     logger.error("no such note");
     res.status(404).send("no such note in db");
   } else {
-    res.status(204).end();
+    res.status(204).json(newNote);
   }
 });
 
