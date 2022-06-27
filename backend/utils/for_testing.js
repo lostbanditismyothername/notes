@@ -9,7 +9,7 @@ const average = (arr) => {
     return acc + cur;
   }, 0);
 
-  return total / arr.length;
+  return arr.length === 0 ? 0 : total / arr.length;
 };
 
 module.exports = {
