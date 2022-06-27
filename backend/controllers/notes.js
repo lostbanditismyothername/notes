@@ -1,5 +1,6 @@
 const notesRouter = require("express").Router();
 const Note = require("../models/note");
+const logger = require("../utils/logger");
 
 // GET ALL
 notesRouter.get("/", (req, res) => {
@@ -65,7 +66,7 @@ notesRouter.delete("/:id", (req, res, next) => {
     .then((result) => {
       if (!result) {
         logger.error("no such note");
-        res.status(404).end();
+        res.status(404).send("no such note in db");
       } else {
         res.status(204).end();
       }
