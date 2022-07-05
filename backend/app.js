@@ -11,7 +11,7 @@ const middleware = require("./utils/middleware");
 const app = express();
 
 // Custom morgan token
-morgan.token("body", (req, res) => JSON.stringify(req.body));
+morgan.token("body", (req, _res) => JSON.stringify(req.body));
 
 // Connect to MongoDB
 logger.info(`Connecting to ${config.MONGODB_URI}`);
