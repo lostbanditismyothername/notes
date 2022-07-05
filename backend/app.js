@@ -5,8 +5,9 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const logger = require("./utils/logger");
 const config = require("./utils/config");
-const notesRouter = require("./controllers/notes");
 const middleware = require("./utils/middleware");
+const notesRouter = require("./controllers/notes");
+const usersRouter = require("./controllers/users");
 
 const app = express();
 
@@ -31,6 +32,7 @@ app.use(morgan(":method :url :status :res[content-length] - :response-time ms :b
 app.use(middleware.requestLogger);
 
 app.use("/api/notes", notesRouter);
+app.use("/api/users", usersRouter);
 
 app.use(middleware.unknownEndpoint);
 app.use(middleware.errorHandler);
