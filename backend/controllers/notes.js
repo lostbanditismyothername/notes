@@ -5,7 +5,7 @@ const logger = require("../utils/logger");
 
 // GET ALL
 notesRouter.get("/", async (req, res) => {
-  const notes = await Note.find({});
+  const notes = await Note.find({}).populate("user", { username: 1 });
   res.json(notes);
 });
 
