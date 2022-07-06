@@ -1,8 +1,9 @@
 POST http://localhost:3001/api/notes
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InN1cGVydXNlciIsImlkIjoiNjJjNTc2NjZiODFlN2Q1N2M5OWM3MmI2IiwiaWF0IjoxNjU3MTA5NTU0fQ.-ImjXcSNyykGrfsP_s7SNxlJJEkrheJcRfv-7Ev4F8Y
 
 {
-    "content": "hello to you",
+    "content": "come on jimmy",
     "important": false,
     "userId": "62c46355d4c0bfc04f44f322"
 }
